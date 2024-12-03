@@ -53,24 +53,36 @@ router.beforeEach(async (to, from, next) => {
   const authStore = useAuthStore()
   const alertStore = useAlertStore()
   
-  // 檢查是否需要登入
-  if (to.meta.requiresAuth && !authStore.token) {
-    alertStore.showAlert('請先登入')
-    return next('/login')
-  }
+  try {
+    // 如果有 token 但沒有用戶信息，嘗試獲取用戶信息
+    if (authStore.token && !authStore.user) {
+      await authStore.getCurrentUser()
+    }
 
-  // 已登入用戶不能訪問登入/註冊頁
-  if (to.meta.guest && authStore.token) {
-    return next('/')
-  }
+    // 檢查是否需要登入
+    if (to.meta.requiresAuth && !authStore.token) {
+      alertStore.showAlert('請先登入')
+      return next('/login')
+    }
 
-  // 檢查角色權限
-  if (to.meta.roles && !to.meta.roles.includes(authStore.user?.role)) {
-    alertStore.showAlert('無權限訪問此頁面')
-    return next('/')
-  }
+    // 已登入用戶不能訪問登入/註冊頁
+    if (to.meta.guest && authStore.token) {
+      return next('/')
+    }
 
-  next()
+    // 檢查角色權限
+    if (to.meta.roles && !to.meta.roles.includes(authStore.user?.role)) {
+      alertStore.showAlert('無權限訪問此頁面')
+      return next('/')
+    }
+
+    next()
+  } catch (error) {
+    console.error('Route guard error:', error)
+    authStore.logout()
+    alertStore.showAlert('登入狀態已過期，請重新登入')
+    next('/login')
+  }
 })
 
 export default router 
