@@ -1,0 +1,61 @@
+:root {
+  /* 品牌色 - 104橘色系 */
+  --primary: #ff7800;
+  --primary-hover: #e66d00;
+  --primary-light: #fff8f3;
+  --primary-border: #ffe4d1;
+
+  /* 中性色 - 104灰階 */
+  --gray-50: #f8f9fa;
+  --gray-100: #f1f3f5;
+  --gray-200: #e9ecef;
+  --gray-300: #dee2e6;
+  --gray-400: #ced4da;
+  --gray-500: #adb5bd;
+  --gray-600: #6c757d;
+  --gray-700: #495057;
+  --gray-800: #343a40;
+  --gray-900: #212529;
+}
+
+/* 全局基礎樣式 */
+body {
+  font-family: "PingFang TC", "Microsoft JhengHei", sans-serif;
+  color: var(--gray-700);
+  line-height: 1.5;
+  background-color: var(--gray-100);
+}
+
+/* 移除連結底線 */
+a {
+  text-decoration: none;
+}
+
+/* 移除按鈕預設樣式 */
+button {
+  border: none;
+  background: none;
+  padding: 0;
+  outline: none !important;
+}
+
+button:focus {
+  outline: none !important;
+  box-shadow: none !important;
+}
+
+/* 動畫效果 */
+.animate-fade-in {
+  animation: fade-in 0.2s ease-out;
+}
+
+@keyframes fade-in {
+  from {
+    opacity: 0;
+    transform: translateY(-10px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+} 
