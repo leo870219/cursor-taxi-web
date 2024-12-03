@@ -161,6 +161,6 @@ const handleSubmit = async () => {
 }
 
 const handleGoogleLogin = () => {
-  window.location.href = 'http://localhost:8080/api/auth/google'
+  window.location.href = `${import.meta.env.VITE_API_URL}/api/auth/google`
 }
 </script> 
